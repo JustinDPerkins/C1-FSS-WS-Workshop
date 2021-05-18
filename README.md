@@ -60,7 +60,7 @@ Ensure you have the following files:
     ```
 </details>
 
-## Destroy the Workshop
+## Delete the Workshop
 
 Ensure you have the following files:
 
@@ -68,7 +68,7 @@ Ensure you have the following files:
 - user .txt file created previously
 
 <details>
-<summary>Deploy Destroy Workshop</summary>
+<summary>Deploy Delete Workshop</summary>
 
 1. Gather AWS Account ID.
 	- [Help find my Account ID](https://www.apn-portal.com/knowledgebase/articles/FAQ/Where-Can-I-Find-My-AWS-Account-ID#:~:text=Your%20AWS%20Account%20identification%20number,your%20account%20information%20with%20AWS.&text=Your%20AWS%20ID%20is%20the,underneath%20the%20Account%20Settings%20section.)
@@ -78,7 +78,7 @@ Ensure you have the following files:
 3. In a terminal/cmd window, navigate directories to the saved create_workshop.py script:
 
     ```bash
-    destroy_workshop.py --account <YOUR_AWS_ACCOUNT_ID> --password <PATH TO .TXT FILE CREATED>
+    destroy_workshop.py --account <YOUR_AWS_ACCOUNT_ID> <PATH TO .TXT FILE CREATED>
     ```
 </details>
 
