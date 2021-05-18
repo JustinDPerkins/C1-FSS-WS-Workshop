@@ -78,7 +78,7 @@ Ensure you have the following files:
 3. In a terminal/cmd window, navigate directories to the saved create_workshop.py script:
 
     ```bash
-    destroy_workshop.py --account <YOUR_AWS_ACCOUNT_ID> <PATH TO .TXT FILE CREATED>
+    delete_workshop.py --account <YOUR_AWS_ACCOUNT_ID> <PATH TO .TXT FILE CREATED>
     ```
 </details>
 
