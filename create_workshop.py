@@ -108,6 +108,8 @@ def create_user_basepolicy():
                     "s3:ListAllMyBuckets",
                     "cloudformation:CreateStack",
                     "sqs:CreateQueue",
+                    "ec2:DescribeInstances",
+                    "ec2:DescribeKeyPairs",
                     "logs:PutRetentionPolicy",
                     "ec2:GetPasswordData"
                     ],
