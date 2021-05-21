@@ -225,8 +225,8 @@ def create_instance(inst_name, account):
             KeyName=inst_name + "-workshop-ec2-kp",
             MinCount=1,
             MaxCount=1,
-            InstanceType='t2.micro',
-            UserData='<powershell> msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi </powershell>',
+            InstanceType='t2.medium',
+            UserData='<powershell> msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi; Set-MpPreference -DisableRealtimeMonitoring $true; $AdminKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}"; $UserKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}"; Set-ItemProperty -Path $AdminKey -Name "IsInstalled" -Value 0; Set-ItemProperty -Path $UserKey -Name "IsInstalled" -Value 0 </powershell>',
             TagSpecifications=[{'ResourceType': 'instance', 'Tags': tags},],
             IamInstanceProfile={'Arn':'arn:aws:iam::'+account+':instance-profile/'+inst_name+'_ec2_assume_role_workshop'}
         )
