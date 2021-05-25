@@ -108,10 +108,17 @@ def create_user_basepolicy():
                     "s3:ListAllMyBuckets",
                     "cloudformation:CreateStack",
                     "sqs:CreateQueue",
-                    "ec2:DescribeInstances",
-                    "ec2:DescribeKeyPairs",
                     "logs:PutRetentionPolicy",
-                    "ec2:GetPasswordData"
+                    "ec2:GetPasswordData",
+                    "sns:UntagResource",
+                    "sns:TagResource",
+                    "iam:TagRole",
+                    "iam:UntagRole",
+                    "iam:TagPolicy",
+                    "iam:UntagPolicy",
+                    "sqs:TaqQueue",
+                    "sqs:UntagQueue",
+                    "sqs:*"
                     ],
                     "Resource": "*"
                 }
