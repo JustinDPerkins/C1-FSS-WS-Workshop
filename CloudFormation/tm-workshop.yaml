@@ -1,0 +1,78 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: "Trend Micro Workshop for Cloud One- WS, FSS, AS, and Conformity. Deploys EC2 instance, S3 Bucket, iam policy, instance profile role/policy"
+Metadata:
+  License: MIT-License
+Parameters:
+  KeyPair:
+    Type: String
+    Default: ""
+    Description: Enter name of a key pair
+  s3bucket:
+    Type: String
+    Default: ""
+    Description: Enter name for a new bucket
+Resources:
+  tminstance:
+    Type: AWS::EC2::Instance
+    Properties:
+        ImageId: ami-0f93c815788872c5d
+        KeyName: !Ref KeyPair
+        InstanceType: t2.medium
+        AvailabilityZone: us-east-1a
+        UserData: 
+          !Base64 | 
+            <powershell> msiexec.exe /i https://awscli.amazonaws.com/AWSCLIV2.msi; Set-MpPreference -DisableRealtimeMonitoring $true; $AdminKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}"; $UserKey = "HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A8-37EF-4b3f-8CFC-4F3A74704073}"; Set-ItemProperty -Path $AdminKey -Name "IsInstalled" -Value 0; Set-ItemProperty -Path $UserKey -Name "IsInstalled" -Value 0 </powershell> 
+        IamInstanceProfile:
+          Ref: tminstanceprofile
+        Tags:
+          -
+            Key: Name
+            Value: TM-WorkShop
+  tminstanceprofile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Path: "/"
+      Roles:
+      - Ref: tminstancerole
+  iampolicy:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: tmiampolicy
+      PolicyDocument:
+        Statement:
+        - Effect: Allow
+          Action:
+            - s3:List*
+          Resource: "*"
+        - Effect: Allow
+          Action:
+            - s3:GetObject,
+            - s3:PutObject
+          Resource:
+            !Sub
+              - 'arn:aws:s3:::${Bucket}/*'
+              - {Bucket: !Ref s3bucket}
+      Roles:
+      - Ref: tminstancerole
+  tminstancerole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - ec2.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+  tmbucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref s3bucket
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
